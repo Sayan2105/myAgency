@@ -1,0 +1,298 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>defineBit | CRM, Automation & Websites for Travel Agencies</title>
+<meta name="description" content="Custom websites, CRM/ERP software and WhatsApp, Instagram and Telegram automation that turn scattered chats into clear business summaries.">
+<meta property="og:type" content="website">
+<meta property="og:title" content="defineBit | CRM, Automation & Websites for Travel Agencies">
+<meta property="og:description" content="Turn scattered chats into clear business summaries.">
+<meta property="og:image" content="https://definebit.dev/share.png">
+<link rel="canonical" href="https://definebit.dev/">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&family=Space+Grotesk:wght@400;500;700&display=swap">
+<style>
+:root{--bg:#050505;--ink:#f4efe6;--mute:#9a948a;--gold:#f5b25a;--amber:#d9822b;--ed:#1e1e1e;--edline:#2b2b2b;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*,*::before,*::after{box-sizing:inherit}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:'Space Grotesk',system-ui,sans-serif;overflow-x:hidden;min-height:100vh}
+body::before{content:"";position:fixed;inset:0;background:radial-gradient(70% 45% at 50% 0%,rgba(245,178,90,.16),transparent 70%);pointer-events:none;z-index:0}
+
+/* gateway */
+#gate{position:fixed;inset:0;background:#000;z-index:50;transition:opacity 1s ease,transform 1.2s ease}
+#gate.open{opacity:0;transform:scale(1.15);pointer-events:none}
+#gate canvas{position:absolute;inset:0}
+#g{filter:blur(10px);mix-blend-mode:screen;opacity:.9}
+#skip{position:absolute;right:16px;bottom:calc(16px + env(safe-area-inset-bottom,0px));background:none;border:1px solid #3a3a3a;color:var(--mute);font:500 13px 'JetBrains Mono',monospace;padding:10px 16px;border-radius:999px;cursor:pointer}
+#skip:focus-visible,.btn:focus-visible,#replay:focus-visible{outline:2px solid var(--gold);outline-offset:3px}
+
+/* waving threads and rings */
+.threads{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden}
+.threads svg{position:absolute;left:0;width:200%;height:40%}
+.threads path{fill:none;stroke:rgba(245,178,90,.28);stroke-width:1.2;vector-effect:non-scaling-stroke}
+.t1{top:12%;animation:drift 38s linear infinite}
+.t2{top:38%;animation:drift 58s linear infinite;opacity:.7}
+.t3{top:62%;animation:drift 80s linear infinite reverse;opacity:.5}
+@keyframes drift{to{transform:translateX(-50%)}}
+.rings{position:absolute;right:-30%;top:8%;width:90vmax;max-width:1100px;aspect-ratio:1;animation:breathe 9s ease-in-out infinite alternate}
+.rings circle{fill:none;stroke:rgba(244,239,230,.07);stroke-width:1}
+@keyframes breathe{to{transform:scale(1.07)}}
+
+/* hero */
+.hero{position:relative;z-index:1;min-height:100vh;display:grid;grid-template-columns:1fr;gap:40px;align-content:center;padding:56px 22px 72px;max-width:1240px;margin:0 auto}
+.copy>*,.vis{opacity:0;transform:translateY(18px)}
+body.in .copy>*,body.in .vis{animation:rise 1s cubic-bezier(.2,.7,.2,1) forwards}
+body.in .copy h1{animation-delay:.1s}body.in .copy .tag{animation-delay:.35s}body.in .copy .cta{animation-delay:.55s}body.in .vis{animation-delay:.7s}
+@keyframes rise{to{opacity:1;transform:none}}
+h1{margin:0;font-weight:700;letter-spacing:-.04em;line-height:.95;font-size:clamp(3.4rem,17vw,8.4rem);background:linear-gradient(100deg,#fff 20%,var(--gold) 75%,var(--amber));-webkit-background-clip:text;background-clip:text;color:transparent}
+.tag{margin:22px 0 0;max-width:30ch;color:var(--mute);font-size:clamp(1.05rem,3.6vw,1.35rem);line-height:1.5}
+.cta{display:flex;flex-wrap:wrap;gap:12px;margin-top:30px}
+.btn{display:inline-flex;align-items:center;justify-content:center;min-height:52px;padding:0 26px;border-radius:999px;font:500 1rem 'Space Grotesk',sans-serif;text-decoration:none;color:var(--ink);border:1px solid #3a3733;transition:border-color .2s,background .2s}
+.btn:hover{border-color:var(--gold)}
+.btn.primary{background:var(--gold);color:#1a1209;border-color:var(--gold);font-weight:700}
+.btn.primary:hover{background:#ffc67a}
+
+/* editor card */
+.vis{position:relative}
+.vis::before{content:"";position:absolute;inset:-12% -6%;background:radial-gradient(closest-side,rgba(245,178,90,.22),transparent);filter:blur(20px);z-index:-1}
+.editor{background:var(--ed);border:1px solid var(--edline);border-radius:12px;overflow:hidden;box-shadow:0 30px 80px rgba(0,0,0,.6)}
+.bar{display:flex;align-items:center;background:#181818;border-bottom:1px solid var(--edline)}
+.dots{display:flex;gap:6px;padding:0 14px}.dots i{width:10px;height:10px;border-radius:50%;background:#3a3a3a}
+.tab{font:400 12.5px 'JetBrains Mono',monospace;color:#d4d4d4;background:var(--ed);padding:10px 16px;border-top:2px solid var(--gold)}
+.code{display:grid;grid-template-columns:auto 1fr;margin:0;padding:18px 0;font:400 clamp(12px,3.3vw,14.5px)/1.75 'JetBrains Mono',monospace;color:#d4d4d4;overflow-x:auto}
+.ln{padding:0 14px 0 16px;color:#5a5a5a;text-align:right;user-select:none;white-space:pre}
+.src{white-space:pre;padding-right:18px}
+.src span.l{display:block;opacity:0}
+body.in .src span.l{animation:rise .6s forwards}
+.c{color:#6a9955}.kw{color:#569cd6}.rt{color:#c586c0}.cl{color:#4ec9b0}.v{color:#9cdcfe}.s{color:#ce9178}.f{color:#dcdcaa}
+.caret{display:inline-block;width:8px;height:1.1em;background:var(--gold);vertical-align:text-bottom;animation:blink 1s steps(1) infinite}
+@keyframes blink{50%{opacity:0}}
+.plain{margin:14px 4px 0;color:var(--mute);font-size:.95rem}
+#replay{position:fixed;left:14px;bottom:calc(14px + env(safe-area-inset-bottom,0px));z-index:5;background:rgba(10,10,10,.7);border:1px solid #333;color:var(--mute);font:400 12px 'JetBrains Mono',monospace;padding:8px 12px;border-radius:999px;cursor:pointer}
+
+.sec{position:relative;z-index:1;max-width:1240px;margin:0 auto;padding:72px 22px}
+.sec h2{margin:0 0 10px;font-size:clamp(2rem,7vw,3.4rem);letter-spacing:-.035em;line-height:1.05}
+.sub{margin:0 0 28px;color:var(--mute);font-size:1.05rem;max-width:44ch;line-height:1.5}
+.sec .editor{max-width:720px}
+.grid{display:grid;gap:16px;grid-template-columns:1fr}
+.proj{background:var(--ed);border:1px solid var(--edline);border-radius:12px;overflow:hidden}
+.shot{aspect-ratio:16/10;display:grid;place-items:center;background:linear-gradient(135deg,#141414,#0c0c0c);color:#4a4a4a;font:400 12px 'JetBrains Mono',monospace}
+.pb{padding:16px}.pb h3{margin:0 0 6px;font-size:1.15rem}.pb p{margin:0 0 12px;color:var(--mute);font-size:.95rem;line-height:1.5}
+.tags{display:flex;flex-wrap:wrap;gap:8px}.tags span{font:400 12px 'JetBrains Mono',monospace;color:#4ec9b0;border:1px solid var(--edline);padding:4px 9px;border-radius:6px}
+.steps{list-style:none;margin:0;padding:0 0 0 22px;border-left:1px solid var(--edline);max-width:560px}
+.steps li{position:relative;padding:0 0 30px 22px;opacity:.4;transition:opacity .6s}
+.steps li::before{content:"";position:absolute;left:-28px;top:6px;width:11px;height:11px;border-radius:50%;background:#333;transition:background .6s,box-shadow .6s}
+.steps li.on{opacity:1}.steps li.on::before{background:var(--gold);box-shadow:0 0 14px var(--gold)}
+.steps b{display:block;font-size:1.2rem;margin-bottom:4px}.steps span{color:var(--mute);line-height:1.5}
+.cbtns{display:grid;gap:12px;margin:26px 0;max-width:720px}
+.cform{display:grid;gap:12px;max-width:720px}
+.cform input,.cform textarea{min-height:52px;background:var(--ed);border:1px solid var(--edline);border-radius:10px;color:var(--ink);padding:14px 16px;font:400 16px 'Space Grotesk',sans-serif}
+.cform textarea{min-height:110px;resize:vertical}
+.cform input:focus-visible,.cform textarea:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+.cform button{cursor:pointer}
+.faq{display:grid;gap:10px;max-width:720px}
+.faq details{background:var(--ed);border:1px solid var(--edline);border-radius:12px;padding:0 18px}
+.faq summary{cursor:pointer;list-style:none;min-height:58px;display:flex;align-items:center;gap:12px;font-weight:500;font-size:1.05rem;line-height:1.35}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary::before{content:"?";flex:none;font:500 14px 'JetBrains Mono',monospace;color:#4ec9b0}
+.faq summary:focus-visible{outline:2px solid var(--gold);outline-offset:2px;border-radius:8px}
+.faq details[open] summary{color:var(--gold)}
+.faq p{margin:0 0 18px;padding-left:26px;color:var(--mute);line-height:1.65}
+footer.foot{position:relative;z-index:1;padding:40px 22px 90px;text-align:center;color:var(--mute);font-size:.9rem}
+@media(min-width:900px){.grid{grid-template-columns:repeat(3,1fr)}.cbtns{grid-template-columns:repeat(3,1fr)}.sec{padding:96px 40px}}
+@media(min-width:900px){
+.hero{grid-template-columns:1.05fr 1fr;gap:56px;padding:64px 40px}
+}
+@media(prefers-reduced-motion:reduce){
+.threads path,.rings,.caret{animation:none}
+.copy>*,.vis,.src span.l{opacity:1;transform:none;animation:none!important}
+}
+</style>
+<noscript><style>#gate{display:none}.copy>*,.vis,.src span.l{opacity:1!important;transform:none!important}</style></noscript>
+</head>
+<body>
+
+<div id="gate" aria-hidden="true">
+  <canvas id="c"></canvas><canvas id="g"></canvas>
+  <button id="skip" type="button">Skip intro</button>
+</div>
+
+<div class="threads" aria-hidden="true">
+  <svg class="t1" viewBox="0 0 2400 400" preserveAspectRatio="none"><path d="M0 200 Q150 80 300 200 T600 200 T900 200 T1200 200 T1500 200 T1800 200 T2100 200 T2400 200"/></svg>
+  <svg class="t2" viewBox="0 0 2400 400" preserveAspectRatio="none"><path d="M0 200 Q150 330 300 200 T600 200 T900 200 T1200 200 T1500 200 T1800 200 T2100 200 T2400 200"/></svg>
+  <svg class="t3" viewBox="0 0 2400 400" preserveAspectRatio="none"><path d="M0 200 Q150 120 300 200 T600 200 T900 200 T1200 200 T1500 200 T1800 200 T2100 200 T2400 200"/></svg>
+  <svg class="rings" viewBox="0 0 800 800"><circle cx="400" cy="400" r="120"/><circle cx="400" cy="400" r="190"/><circle cx="400" cy="400" r="270"/><circle cx="400" cy="400" r="350"/><circle cx="400" cy="400" r="395"/></svg>
+</div>
+
+<main class="hero">
+  <div class="copy">
+    <h1>defineBit</h1>
+    <p class="tag">We build fast, beautiful websites and software that bring your business more customers.</p>
+    <div class="cta">
+      <a class="btn primary" href="#contact">Start a project</a>
+      <a class="btn" href="#work">View our work</a>
+    </div>
+  </div>
+  <div class="vis">
+    <div class="editor" role="img" aria-label="Python code showing what defineBit builds">
+      <div class="bar"><div class="dots"><i></i><i></i><i></i></div><div class="tab">services.py</div></div>
+      <div class="code">
+        <div class="ln">1
+2
+3
+4
+5
+6
+7</div>
+        <div class="src"><span class="l" style="animation-delay:1s"><span class="c"># We build websites that get found</span></span><span class="l" style="animation-delay:1.25s"><span class="kw">class</span> <span class="cl">DefineBit</span>:</span><span class="l" style="animation-delay:1.5s">    <span class="v">services</span> = [<span class="s">"Websites"</span>, <span class="s">"Software"</span>]</span><span class="l" style="animation-delay:1.7s"> </span><span class="l" style="animation-delay:1.9s">    <span class="kw">def</span> <span class="f">start_project</span>(<span class="kw">self</span>, <span class="v">idea</span>):</span><span class="l" style="animation-delay:2.15s">        <span class="rt">return</span> <span class="s">f"Let's build {idea}"</span></span><span class="l" style="animation-delay:2.4s"><span class="caret"></span></span></div>
+      </div>
+    </div>
+    <p class="plain">In plain words: we design, build and launch your website or app.</p>
+  </div>
+</main>
+
+<section class="sec" id="services">
+  <h2>What we build</h2>
+  <p class="sub">Websites, software and chatbots, made to bring your business more customers.</p>
+  <div class="editor">
+    <div class="bar"><div class="dots"><i></i><i></i><i></i></div><div class="tab">services.py</div></div>
+    <div class="code"><div class="ln">1
+2
+3
+4
+5</div><div class="src"><span class="c"># Plain words: this is what we do</span>
+<span class="kw">class</span> <span class="cl">Services</span>:
+    <span class="v">websites</span> = <span class="s">"Fast sites that rank on Google"</span>
+    <span class="v">software</span> = <span class="s">"Custom tools and admin panels"</span>
+    <span class="v">chatbots</span> = <span class="s">"AI bots for Telegram and WhatsApp"</span></div></div>
+  </div>
+</section>
+
+<section class="sec" id="work">
+  <h2>Our work</h2>
+  <p class="sub">A few projects we are proud of. Each one is a file in our work folder.</p>
+  <div class="grid">
+    <article class="proj"><div class="bar"><div class="tab">travel_agency_crm.py</div></div><div class="shot">screenshot goes here</div><div class="pb"><h3>Travel agency website and CRM</h3><p>A travel agency website with its own admin panel, built so enquiries and bookings are managed in one place.</p><div class="tags"><span>Laravel</span><span>Filament</span><span>CRM</span></div></div></article>
+    <article class="proj"><div class="bar"><div class="tab">concept_restaurant.py</div></div><div class="shot">screenshot goes here</div><div class="pb"><h3>Concept: restaurant site</h3><p>A sample site that shows menus and takes bookings.</p><div class="tags"><span>Website</span><span>Booking</span></div></div></article>
+    <article class="proj"><div class="bar"><div class="tab">concept_ai_bot.py</div></div><div class="shot">screenshot goes here</div><div class="pb"><h3>Concept: daily summary bot</h3><p>A Telegram bot that sends the owner a daily summary of new chats, leads and sales.</p><div class="tags"><span>Telegram</span><span>AI</span></div></div></article>
+  </div>
+</section>
+
+<section class="sec" id="process">
+  <h2>How we work</h2>
+  <p class="sub">Four clear steps, so you always know what comes next.</p>
+  <ol class="steps">
+    <li><b>Talk</b><span>Tell us your idea. We listen first.</span></li>
+    <li><b>Plan</b><span>We map out the pages, features and cost.</span></li>
+    <li><b>Build</b><span>We design and code it, and you see progress along the way.</span></li>
+    <li><b>Launch</b><span>We go live and support you after.</span></li>
+  </ol>
+</section>
+
+<section class="sec" id="contact">
+  <h2>Have an idea? Let's build it.</h2>
+  <p class="sub">Message us anywhere you like. We reply fast.</p>
+  <div class="editor">
+    <div class="bar"><div class="dots"><i></i><i></i><i></i></div><div class="tab">contact.py</div></div>
+    <div class="code"><div class="ln">1
+2
+3
+4
+5</div><div class="src"><span class="v">contact</span> = {
+    <span class="s">"instagram"</span>: <span class="s">"@definebit"</span>,
+    <span class="s">"whatsapp"</span>: <span class="s">"+91 00000 00000"</span>,
+    <span class="s">"email"</span>: <span class="s">"hello@definebit.dev"</span>,
+}</div></div>
+  </div>
+  <div class="cbtns">
+    <a class="btn primary" href="#">Message on WhatsApp</a>
+    <a class="btn" href="#">DM on Instagram</a>
+    <a class="btn" href="mailto:hello@definebit.dev">Send an email</a>
+  </div>
+  <form class="cform" id="cf">
+    <input name="name" placeholder="Your name" aria-label="Your name" required>
+    <textarea name="need" placeholder="What do you need?" aria-label="What do you need" required></textarea>
+    <input name="contact" placeholder="Phone or email" aria-label="Phone or email" required>
+    <button class="btn primary" type="submit">Send message</button>
+  </form>
+</section>
+
+<section class="sec" id="faq">
+  <h2>Questions we hear</h2>
+  <p class="sub">Straight answers about enquiries, CRM and automation.</p>
+  <div class="faq">
+    <details><summary>How can a travel agency stop losing Instagram and WhatsApp enquiries?</summary><p>Bring every chat into one place. We connect Instagram and WhatsApp to a custom CRM, so each enquiry becomes a lead with a status, an owner and a follow-up reminder. Nothing sits unread in a DM, and you can see who still needs a reply.</p></details>
+    <details><summary>Can a CRM send me a daily business summary on Telegram or WhatsApp?</summary><p>Yes. We connect your CRM to a Telegram or WhatsApp bot that sends one short message a day: new enquiries, quotes waiting for a reply and bookings confirmed. You see the day at a glance without opening any software.</p></details>
+    <details><summary>Do you only work with travel agencies?</summary><p>No. Travel agencies are our first speciality, but the same setup suits any business that takes orders or enquiries through chats, like coaching centres, salons and online shops. We also build websites and ERP software.</p></details>
+    <details><summary>What do you need from us to get started?</summary><p>A short call about how enquiries reach you today, access to your Instagram or WhatsApp business account, and a list of what you want in your daily summary. WhatsApp and Instagram connections need Meta's business approval, and we guide you through it.</p></details>
+  </div>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"How can a travel agency stop losing Instagram and WhatsApp enquiries?","acceptedAnswer":{"@type":"Answer","text":"Bring every chat into one place. We connect Instagram and WhatsApp to a custom CRM, so each enquiry becomes a lead with a status, an owner and a follow-up reminder. Nothing sits unread in a DM, and you can see who still needs a reply."}},{"@type":"Question","name":"Can a CRM send me a daily business summary on Telegram or WhatsApp?","acceptedAnswer":{"@type":"Answer","text":"Yes. We connect your CRM to a Telegram or WhatsApp bot that sends one short message a day: new enquiries, quotes waiting for a reply and bookings confirmed."}},{"@type":"Question","name":"Do you only work with travel agencies?","acceptedAnswer":{"@type":"Answer","text":"No. Travel agencies are our first speciality, but the same setup suits any business that takes orders or enquiries through chats. We also build websites and ERP software."}}]}</script>
+</section>
+
+<footer class="foot">© defineBit · definebit.dev · Websites and software development</footer>
+
+<button id="replay" type="button">Replay intro</button>
+
+<script>
+(function(){
+var gate=document.getElementById('gate'),c=document.getElementById('c'),g=document.getElementById('g');
+var cx=c.getContext('2d'),gx=g.getContext('2d');
+var raf,start,cells,W,H,dpr,cw,ch;
+var reduce=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+function ease(x){return x<.5?2*x*x:1-Math.pow(-2*x+2,2)/2}
+function build(){
+  W=innerWidth;H=innerHeight;dpr=Math.min(devicePixelRatio||1,2);
+  [c,g].forEach(function(k){k.width=W*dpr;k.height=H*dpr;k.style.width=W+'px';k.style.height=H+'px'});
+  var fs=W<600?10:13,cols=Math.floor(W/(fs*.62)),rows=Math.floor(H/(fs*1.15));
+  cw=W/cols;ch=H/rows;
+  var o=document.createElement('canvas');o.width=cols;o.height=rows;
+  var ox=o.getContext('2d');ox.scale(cols/W,rows/H);
+  var F=Math.min(W*.5,H*.42);
+  ox.fillStyle='#fff';ox.font='900 '+F+'px "Arial Black",Impact,Helvetica,sans-serif';
+  ox.textAlign='center';ox.textBaseline='middle';ox.fillText('DB',W/2,H/2);
+  var d=ox.getImageData(0,0,cols,rows).data;cells=[];
+  for(var y=0;y<rows;y++)for(var x=0;x<cols;x++){
+    if(d[(y*cols+x)*4+3]>110)cells.push({x:x*cw+cw/2,y:y*ch+ch/2,b:Math.random()<.5?'0':'1'});
+  }
+}
+function frame(now){
+  var t=(now-start)/1000,L=ease(Math.min(t/2,1)),mx=Math.max(W,H),i;
+  cx.setTransform(dpr,0,0,dpr,0,0);cx.clearRect(0,0,W,H);
+  var gr=cx.createRadialGradient(W/2,H/2,0,W/2,H/2,mx*.6);
+  gr.addColorStop(0,'rgba(255,252,246,'+.36*L+')');
+  gr.addColorStop(.4,'rgba(255,238,210,'+.08*L+')');
+  gr.addColorStop(1,'rgba(0,0,0,0)');
+  cx.fillStyle=gr;cx.fillRect(0,0,W,H);
+  cx.font=(ch*.95)+'px "JetBrains Mono",monospace';cx.textAlign='center';cx.textBaseline='middle';
+  for(i=0;i<cells.length;i++){
+    var k=cells[i],dist=Math.hypot(k.x-W/2,k.y-H/2)/(mx*.45);
+    var b=L*.8*Math.max(.25,1-dist*.8)+.06;
+    if(Math.random()<.002)k.b=k.b==='0'?'1':'0';
+    cx.fillStyle='rgba(255,'+Math.round(215+40*b)+','+Math.round(175+80*b)+','+Math.min(1,.18+b)+')';
+    cx.fillText(k.b,k.x,k.y);
+  }
+  gx.setTransform(1,0,0,1,0,0);gx.clearRect(0,0,g.width,g.height);gx.drawImage(c,0,0);
+  if(t>2.6)finish();else raf=requestAnimationFrame(frame);
+}
+function finish(){
+  cancelAnimationFrame(raf);gate.classList.add('open');document.body.classList.add('in');
+  setTimeout(function(){if(gate.classList.contains('open'))gate.style.display='none'},1200);
+}
+function play(){
+  cancelAnimationFrame(raf);gate.style.display='';gate.classList.remove('open');document.body.classList.remove('in');
+  if(reduce){finish();return}
+  void gate.offsetWidth;build();start=performance.now();raf=requestAnimationFrame(frame);
+}
+document.getElementById('skip').addEventListener('click',finish);
+var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting)e.target.classList.add('on')})},{threshold:.6});
+document.querySelectorAll('.steps li').forEach(function(li){io.observe(li)});
+var cf=document.getElementById('cf');
+cf.addEventListener('submit',function(e){e.preventDefault();var d=new FormData(cf);location.href='mailto:hello@definebit.dev?subject='+encodeURIComponent('Project enquiry from '+d.get('name'))+'&body='+encodeURIComponent(d.get('need')+'\n\nContact: '+d.get('contact'))});
+document.getElementById('replay').addEventListener('click',play);
+Promise.race([document.fonts?document.fonts.ready:Promise.resolve(),new Promise(function(r){setTimeout(r,800)})]).then(play);
+})();
+</script>
+</body>
+</html>
